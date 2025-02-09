@@ -28,6 +28,7 @@
 
   networking.firewall.enable = lib.mkForce false;
   networking.useDHCP = false;
+  networking.defaultGateway = "192.168.10.1";
 
   #  networking.firewall.allowedTCPPorts = [
   #6443 # k3s: required so that pods can reach the API server (running on port 6443 by default)

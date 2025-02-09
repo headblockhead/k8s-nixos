@@ -16,6 +16,6 @@
     enable = true;
     role = "server";
     token = "token"; # Change Me!
-    serverAddr = "https://192.168.10.1:6443";
+    serverAddr = "https://192.168.10.10:6443";
   };
 }
