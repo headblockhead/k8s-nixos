@@ -1,4 +1,4 @@
-{ pkgs, lib, sshkeys, ... }:
+{ pkgs, config, lib, sshkeys, ... }:
 {
   services.openssh = {
     enable = true;
@@ -23,8 +23,25 @@
   environment.systemPackages = with pkgs; [
     kubectl
     k9s
-    #kubernetes
   ];
+
+  services.k3s = {
+    enable = true;
+    images = [
+      (pkgs.dockerTools.pullImage {
+        imageName = "registry.k8s.io/e2e-test-images/agnhost";
+        imageDigest = "sha256:7e8bdd271312fd25fc5ff5a8f04727be84044eb3d7d8d03611972a6752e2e11e";
+        sha256 = "sha256-mPe2of+y6XXTryVqVjW3XATgtVG1U/DxlKOWwM5JyWw=";
+        finalImageTag = "2.39";
+      })
+
+      config.services.k3s.package.airgapImages
+    ];
+
+    role = "server";
+    token = "token"; # Change Me!
+    serverAddr = "https://192.168.10.10:6443";
+  };
 
   networking.useDHCP = false;
   networking.defaultGateway = "192.168.10.1";

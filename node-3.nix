@@ -11,11 +11,4 @@
     address = "192.168.10.30";
     prefixLength = 24;
   }];
-
-  services.k3s = {
-    enable = true;
-    role = "server";
-    token = "token"; # Change Me!
-    serverAddr = "https://192.168.10.10:6443";
-  };
 }

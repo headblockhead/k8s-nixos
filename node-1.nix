@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, pkgs, config, ... }:
 {
   networking.hostName = "node-1";
   system.stateVersion = "24.11";
@@ -12,10 +12,6 @@
     prefixLength = 24;
   }];
 
-  services.k3s = {
-    enable = true;
-    role = "server";
-    token = "token"; # Change Me!
-    clusterInit = true;
-  };
+  services.k3s.clusterInit = true;
+  services.k3s.serverAddr = lib.mkForce "";
 }
