@@ -28,6 +28,15 @@
             ./node-1.nix
           ];
         };
+        node-2 = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs outputs sshkeys pkgs; };
+          modules = [
+            "${nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix"
+            ./shared.nix
+            ./node-2.nix
+          ];
+        };
       };
     };
 }
