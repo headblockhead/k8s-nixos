@@ -1,15 +1,21 @@
 { lib, config, ... }:
 {
-  networking.hostName = "node-1";
+  networking.hostName = "node-2";
   system.stateVersion = "24.11";
   virtualisation.qemu.networkingOptions = lib.mkForce [
-    "-nic user,id=cluster,ipv6=off,net=10.0.2.0/24,hostfwd=tcp:127.0.0.1:2020-:22,hostname=node-2,host=10.0.2.20"
+    "-netdev bridge,id=vlan"
+    "-device virtio-net-pci,netdev=vlan,mac=52:54:00:12:34:57"
   ];
+
+  networking.interfaces.eth0.ipv4.addresses = [{
+    address = "192.168.10.20";
+    prefixLength = 24;
+  }];
 
   services.k3s = {
     enable = true;
     role = "server";
-    token = "TODO: changeme";
-    serverAddr = "https://10.0.2.10:6443";
+    token = "token"; # Change Me!
+    serverAddr = "https://192.168.10.1:6443";
   };
 }
